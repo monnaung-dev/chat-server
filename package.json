@@ -1,0 +1,25 @@
+{
+  "name": "emeeting-chat-backend",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "start:server": "node server/index.js",
+    "test": "echo \"No test specified\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "http": "0.0.1-security",
+    "mssql": "^8.1.2",
+    "socket.io": "^4.5.1",
+    "socket.io-redis": "^6.1.1"
+  }
+}

@@ -1,0 +1,53 @@
+import http from 'http';
+import https from 'https';
+import express from 'express';
+import cors from "cors";
+import { Server } from "socket.io";
+//import redisAdapter from 'socket.io-redis';
+import WebSocket from './config/WebSocket.js';
+//import './config/sqlserver.js';
+import participatnRouter from '../server/routes/participant.js';
+import fs from 'fs';
+
+const app = express();
+
+const hostname = '192.168.1.113';
+const port = process.env.port || "5001";
+var options = {
+  key: fs.readFileSync('D://conf.key'),
+  cert: fs.readFileSync('D://conf.pem')
+};
+
+
+app.set("host", hostname);
+app.set("port", port);
+
+app.use(cors({
+  origin: '*'
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use("/participant", participatnRouter);
+
+/** 404 and forward to error handler */
+app.use('*', (req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: 'API endpoint doesnt exist'
+  })
+});
+
+const server = http.createServer(app);
+global.io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+//global.io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
+global.io.on('connection', WebSocket.connection)
+server.listen(port,hostname);
+server.on("listening", () => {
+  console.log(`Listening on port : https://${hostname}:${port}`);
+})
