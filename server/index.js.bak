@@ -15,7 +15,7 @@ const hostname = '192.168.1.113';
 const port = process.env.port || "5001";
 var options = {
   key: fs.readFileSync('D://conf.key'),
-  cert: fs.readFileSync('D:/conf.pem')
+  cert: fs.readFileSync('D://conf.pem')
 };
 
 
